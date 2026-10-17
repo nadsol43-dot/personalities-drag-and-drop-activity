@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appearance and Interests Vocabulary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Word Bank Styles */
+        #word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            max-width: 700px;
+            margin-bottom: 30px;
+            min-height: 120px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .word {
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: grab;
+            user-select: none;
+            font-size: 14px;
+            color: #333;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.1s;
+        }
+
+        .word:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+
+        /* Pastel Colors from the image */
+        .c-green { background-color: #c9e4c5; }
+        .c-orange { background-color: #fbd4b4; }
+        .c-yellow { background-color: #fff6b7; }
+        .c-pink { background-color: #f9c6d0; }
+        .c-purple { background-color: #d1c4e9; }
+        .c-blue { background-color: #b3e5fc; }
+        .c-teal { background-color: #b2dfdb; }
+
+        /* Table Styles */
+        .table-container {
+            width: 100%;
+            max-width: 700px;
+            background-color: #fff;
+            border: 2px solid #7eb0d5;
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        td {
+            border: 1px solid #7eb0d5;
+            padding: 8px;
+            vertical-align: top;
+            height: 45px;
+        }
+
+        .category-label {
+            width: 25%;
+            text-align: center;
+            vertical-align: middle;
+            font-weight: bold;
+            color: #444;
+            background-color: #f0f8ff;
+        }
+
+        .drop-zone {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            min-height: 45px;
+            transition: background-color 0.2s;
+        }
+
+        .drop-zone.drag-over {
+            background-color: #e3f2fd;
+        }
+
+        /* Feedback Styles */
+        .word.correct {
+            border: 2px solid #4caf50;
+        }
+
+        .word.incorrect {
+            border: 2px solid #f44336;
+        }
+
+        /* Buttons */
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+
+        #check-btn { background-color: #4caf50; }
+        #check-btn:hover { background-color: #45a049; }
+
+        #reset-btn { background-color: #f44336; }
+        #reset-btn:hover { background-color: #da190b; }
+
+    </style>
+</head>
+<body>
+
+    <h1>Sort the Words into the Correct Categories</h1>
+
+    <!-- Word Bank -->
+    <div id="word-bank">
+        <div class="word c-green" draggable="true">dark</div>
+        <div class="word c-orange" draggable="true">overweight</div>
+        <div class="word c-yellow" draggable="true">skinny</div>
+        <div class="word c-pink" draggable="true">small</div>
+        <div class="word c-purple" draggable="true">middle-aged</div>
+        <div class="word c-yellow" draggable="true">pretty</div>
+        <div class="word c-teal" draggable="true">green</div>
+        <div class="word c-pink" draggable="true">blonde</div>
+        <div class="word c-teal" draggable="true">fair</div>
+        <div class="word c-blue" draggable="true">bald</div>
+        <div class="word c-blue" draggable="true">short</div>
+        <div class="word c-orange" draggable="true">good-looking</div>
+        <div class="word c-green" draggable="true">ginger</div>
+        <div class="word c-yellow" draggable="true">travelling</div>
+        <div class="word c-purple" draggable="true">slim</div>
+        <div class="word c-pink" draggable="true">wavy</div>
+        <div class="word c-pink" draggable="true">of medium build</div>
+        <div class="word c-orange" draggable="true">young</div>
+        <div class="word c-green" draggable="true">tall</div>
+        <div class="word c-green" draggable="true">old</div>
+        <div class="word c-pink" draggable="true">sports</div>
+        <div class="word c-purple" draggable="true">beautiful</div>
+        <div class="word c-yellow" draggable="true">painting</div>
+        <div class="word c-green" draggable="true">handsome</div>
+        <div class="word c-teal" draggable="true">music</div>
+    </div>
+
+    <!-- Categorization Table -->
+    <div class="table-container">
+        <table id="categories">
+            <tr>
+                <td class="category-label">eyes</td>
+                <td><div class="drop-zone" data-category="eyes"></div></td>
+            </tr>
+            <tr>
+                <td class="category-label">hair</td>
+                <td><div class="drop-zone" data-category="hair"></div></td>
+            </tr>
+            <tr>
+                <td class="category-label">height</td>
+                <td><div class="drop-zone" data-category="height"></div></td>
+            </tr>
+            <tr>
+                <td class="category-label">weight</td>
+                <td><div class="drop-zone" data-category="weight"></div></td>
+            </tr>
+            <tr>
+                <td class="category-label">age</td>
+                <td><div class="drop-zone" data-category="age"></div></td>
+            </tr>
+            <tr>
+                <td class="category-label">looks</td>
+                <td><div class="drop-zone" data-category="looks"></div></td>
+            </tr>
+            <tr>
+                <td class="category-label">interests</td>
+                <td><div class="drop-zone" data-category="interests"></div></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="controls">
+        <button id="check-btn">Check Answers</button>
+        <button id="reset-btn">Reset</button>
+    </div>
+
+    <script>
+        // Define correct answers for validation
+        const correctAnswers = {
+            eyes: ["green", "dark"],
+            hair: ["wavy", "fair", "blonde", "ginger", "dark", "bald"],
+            height: ["short", "tall", "small"],
+            weight: ["overweight", "skinny", "slim", "of medium build"],
+            age: ["middle-aged", "young", "old"],
+            looks: ["pretty", "good-looking", "beautiful", "handsome"],
+            interests: ["travelling", "sports", "painting", "music"]
+        };
+
+        const words = document.querySelectorAll('.word');
+        const dropZones = document.querySelectorAll('.drop-zone');
+        const wordBank = document.getElementById('word-bank');
+        let draggedWord = null;
+
+        // Drag and Drop Event Listeners
+        words.forEach(word => {
+            word.addEventListener('dragstart', (e) => {
+                draggedWord = word;
+                setTimeout(() => word.style.display = 'none', 0); // Hide original while dragging
+            });
+
+            word.addEventListener('dragend', () => {
+                if (word.style.display === 'none') {
+                    word.style.display = 'block'; // Show again if not dropped in a valid zone
+                }
+                draggedWord = null;
+                // Remove highlighting from all zones
+                dropZones.forEach(zone => zone.classList.remove('drag-over'));
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault(); // Necessary to allow dropping
+                zone.classList.add('drag-over');
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('drag-over');
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                
+                if (draggedWord) {
+                    draggedWord.style.display = 'block'; // Show it in the new location
+                    draggedWord.classList.remove('correct', 'incorrect'); // Remove old feedback
+                    zone.appendChild(draggedWord);
+                }
+            });
+        });
+
+        // Allow dropping back into the word bank
+        wordBank.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        wordBank.addEventListener('drop', (e) => {
+            e.preventDefault();
+            if (draggedWord) {
+                draggedWord.style.display = 'block';
+                draggedWord.classList.remove('correct', 'incorrect');
+                wordBank.appendChild(draggedWord);
+            }
+        });
+
+        // Check Answers Function
+        document.getElementById('check-btn').addEventListener('click', () => {
+            dropZones.forEach(zone => {
+                const category = zone.getAttribute('data-category');
+                const wordsInZone = zone.querySelectorAll('.word');
+
+                wordsInZone.forEach(word => {
+                    const wordText = word.innerText.toLowerCase();
+                    
+                    // Check if the word is in the correct array for this category
+                    if (correctAnswers[category].includes(wordText)) {
+                        word.classList.remove('incorrect');
+                        word.classList.add('correct');
+                    } else {
+                        word.classList.remove('correct');
+                        word.classList.add('incorrect');
+                    }
+                });
+            });
+        });
+
+        // Reset Function
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            words.forEach(word => {
+                word.classList.remove('correct', 'incorrect');
+                word.style.display = 'block';
+                wordBank.appendChild(word);
+            });
+        });
+    </script>
+</body>
+</html>
